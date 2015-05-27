@@ -3,5 +3,8 @@
     "require": {
         "fkooman/guzzle-bearer-auth-plugin": "dev-master",
         "fkooman/oauth-client": "dev-master"
+    },
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.*"
     }
 }
