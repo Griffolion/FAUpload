@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+
 -->
 <html>
     <head>
         <meta charset="UTF-8">
+        <link rel='stylesheet' href='Bootstrap/css/bootstrap.css' type='text/css'/>
+        <link rel='stylesheet' href='Bootstrap/css/bootstrap-theme.css' type='text/css'/>
         <title></title>
     </head>
     <body>
@@ -16,3 +15,6 @@ and open the template in the editor.
         ?>
     </body>
 </html>
+
+<script src="JQuery/js/jquery-1.11.3.js"></script>
+<script src="Bootstrap/js/bootstrap.min.js"></script>
