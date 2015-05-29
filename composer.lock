@@ -4,30 +4,36 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "50f63b222680b9f766e402b970334154",
+    "hash": "40c87481781477ebd94613226c2aff83",
     "packages": [
         {
-            "name": "fkooman/guzzle-bearer-auth-plugin",
-            "version": "dev-master",
+            "name": "adammbalogh/box-sdk",
+            "version": "0.5.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fkooman/guzzle-bearer-auth-plugin.git",
-                "reference": "91df06873eab0e3f0992b3e2c6d5857d70390d34"
+                "url": "https://github.com/adammbalogh/box-php-sdk.git",
+                "reference": "5a7b76aa4b996d03dfa0c913853fed3ad6b04c22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/guzzle-bearer-auth-plugin/zipball/91df06873eab0e3f0992b3e2c6d5857d70390d34",
-                "reference": "91df06873eab0e3f0992b3e2c6d5857d70390d34",
+                "url": "https://api.github.com/repos/adammbalogh/box-php-sdk/zipball/5a7b76aa4b996d03dfa0c913853fed3ad6b04c22",
+                "reference": "5a7b76aa4b996d03dfa0c913853fed3ad6b04c22",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "~5.0",
-                "php": ">=5.4"
+                "adammbalogh/key-value-store": "~0.5.1",
+                "guzzlehttp/guzzle": "~4.2.2",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "~2.1",
+                "phpunit/phpunit": "~4.2.5",
+                "squizlabs/php_codesniffer": "~1.5"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "fkooman\\Guzzle\\Plugin\\BearerAuth\\": "src/fkooman/Guzzle/Plugin/BearerAuth/"
+                    "AdammBalogh\\Box\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -36,156 +42,57 @@
             ],
             "authors": [
                 {
-                    "name": "François Kooman",
-                    "email": "fkooman@tuxed.net",
+                    "name": "Adam Balogh",
+                    "email": "baloghbh@gmail.com",
+                    "homepage": "http://code-chronicle.blogspot.com",
                     "role": "Developer"
                 }
             ],
-            "description": "Guzzle Bearer plugin",
-            "time": "2015-02-26 21:16:29"
+            "description": "Unofficial Box.com Php Sdk",
+            "keywords": [
+                "box",
+                "box.com",
+                "sdk"
+            ],
+            "time": "2014-10-20 18:22:30"
         },
         {
-            "name": "fkooman/oauth-client",
-            "version": "dev-master",
+            "name": "adammbalogh/key-value-store",
+            "version": "0.5.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fkooman/php-oauth-client.git",
-                "reference": "4b2c322a9c61adedc36f066db804e4700874d985"
+                "url": "https://github.com/adammbalogh/key-value-store.git",
+                "reference": "92f1f5b051c5809a87a3cee62c7627043f101efd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-oauth-client/zipball/4b2c322a9c61adedc36f066db804e4700874d985",
-                "reference": "4b2c322a9c61adedc36f066db804e4700874d985",
+                "url": "https://api.github.com/repos/adammbalogh/key-value-store/zipball/92f1f5b051c5809a87a3cee62c7627043f101efd",
+                "reference": "92f1f5b051c5809a87a3cee62c7627043f101efd",
                 "shasum": ""
             },
             "require": {
-                "ext-openssl": "*",
-                "fkooman/oauth-common": "~0.5.0",
-                "guzzle/guzzle": "~3.9",
-                "php": ">=5.3.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "fkooman\\OAuth\\Client": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0+"
-            ],
-            "authors": [
-                {
-                    "name": "François Kooman",
-                    "email": "fkooman@tuxed.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP OAuth 2.0 Client",
-            "time": "2014-10-27 16:14:28"
-        },
-        {
-            "name": "fkooman/oauth-common",
-            "version": "0.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fkooman/php-oauth-lib-common.git",
-                "reference": "43f92e264b2facf1065feb5af671b96a53366132"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-oauth-lib-common/zipball/43f92e264b2facf1065feb5af671b96a53366132",
-                "reference": "43f92e264b2facf1065feb5af671b96a53366132",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "fkooman\\OAuth\\Common\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "François Kooman",
-                    "email": "fkooman@tuxed.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP library for common OAuth classes.",
-            "time": "2014-08-16 09:22:31"
-        },
-        {
-            "name": "guzzle/guzzle",
-            "version": "v3.9.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/0645b70d953bc1c067bbc8d5bc53194706b628d9",
-                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.3.3",
-                "symfony/event-dispatcher": "~2.1"
-            },
-            "replace": {
-                "guzzle/batch": "self.version",
-                "guzzle/cache": "self.version",
-                "guzzle/common": "self.version",
-                "guzzle/http": "self.version",
-                "guzzle/inflection": "self.version",
-                "guzzle/iterator": "self.version",
-                "guzzle/log": "self.version",
-                "guzzle/parser": "self.version",
-                "guzzle/plugin": "self.version",
-                "guzzle/plugin-async": "self.version",
-                "guzzle/plugin-backoff": "self.version",
-                "guzzle/plugin-cache": "self.version",
-                "guzzle/plugin-cookie": "self.version",
-                "guzzle/plugin-curlauth": "self.version",
-                "guzzle/plugin-error-response": "self.version",
-                "guzzle/plugin-history": "self.version",
-                "guzzle/plugin-log": "self.version",
-                "guzzle/plugin-md5": "self.version",
-                "guzzle/plugin-mock": "self.version",
-                "guzzle/plugin-oauth": "self.version",
-                "guzzle/service": "self.version",
-                "guzzle/stream": "self.version"
+                "php": ">=5.4.0"
             },
             "require-dev": {
-                "doctrine/cache": "~1.3",
-                "monolog/monolog": "~1.0",
-                "phpunit/phpunit": "3.7.*",
-                "psr/log": "~1.0",
-                "symfony/class-loader": "~2.1",
-                "zendframework/zend-cache": "2.*,<2.3",
-                "zendframework/zend-log": "2.*,<2.3"
+                "mockery/mockery": "~0.9.2",
+                "phpmd/phpmd": "~2.1",
+                "phpunit/phpunit": "~4.2.5",
+                "satooshi/php-coveralls": "dev-master",
+                "squizlabs/php_codesniffer": "~1.5"
             },
             "suggest": {
-                "guzzlehttp/guzzle": "Guzzle 5 has moved to a new package name. The package you have installed, Guzzle 3, is deprecated."
+                "adammbalogh/key-value-store-file": "For using File storage",
+                "adammbalogh/key-value-store-memcached": "For using Memcached storage",
+                "adammbalogh/key-value-store-memory": "For using Memory storage",
+                "adammbalogh/key-value-store-null": "For using Null storage",
+                "adammbalogh/key-value-store-redis": "For using Redis storage",
+                "adammbalogh/key-value-store-replicator": "For using Replicator adapter",
+                "adammbalogh/key-value-store-shared-memory": "For using Shared Memory storage"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.9-dev"
-                }
-            },
             "autoload": {
-                "psr-0": {
-                    "Guzzle": "src/",
-                    "Guzzle\\Tests": "tests/"
+                "psr-4": {
+                    "AdammBalogh\\KeyValueStore\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -194,61 +101,169 @@
             ],
             "authors": [
                 {
-                    "name": "Michael Dowling",
-                    "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
-                },
-                {
-                    "name": "Guzzle Community",
-                    "homepage": "https://github.com/guzzle/guzzle/contributors"
+                    "name": "Adam Balogh",
+                    "email": "baloghbh@gmail.com",
+                    "homepage": "http://code-chronicle.blogspot.com",
+                    "role": "Developer"
                 }
             ],
-            "description": "PHP HTTP client. This library is deprecated in favor of https://packagist.org/packages/guzzlehttp/guzzle",
-            "homepage": "http://guzzlephp.org/",
+            "description": "Key-value store generic package. It contains abstractions.",
             "keywords": [
-                "client",
-                "curl",
-                "framework",
-                "http",
-                "http client",
-                "rest",
-                "web service"
+                "key",
+                "key-value",
+                "nosql",
+                "store",
+                "value"
             ],
-            "time": "2015-03-18 18:23:50"
+            "time": "2014-10-22 15:44:11"
+        },
+        {
+            "name": "adammbalogh/key-value-store-memory",
+            "version": "0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adammbalogh/key-value-store-memory.git",
+                "reference": "6bc1bf5c6610b19142c1684db40b15623f7c0a25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adammbalogh/key-value-store-memory/zipball/6bc1bf5c6610b19142c1684db40b15623f7c0a25",
+                "reference": "6bc1bf5c6610b19142c1684db40b15623f7c0a25",
+                "shasum": ""
+            },
+            "require": {
+                "adammbalogh/key-value-store": "~0.5.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.2",
+                "phpunit/phpunit": "~4.2.5",
+                "satooshi/php-coveralls": "dev-master",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AdammBalogh\\KeyValueStore\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Balogh",
+                    "email": "baloghbh@gmail.com",
+                    "homepage": "http://code-chronicle.blogspot.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Key-value memory store through a simple php array.",
+            "keywords": [
+                "array",
+                "key",
+                "key-value",
+                "key-value-memory",
+                "store",
+                "value"
+            ],
+            "time": "2014-10-20 17:41:18"
+        },
+        {
+            "name": "adammbalogh/key-value-store-null",
+            "version": "0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adammbalogh/key-value-store-null.git",
+                "reference": "939c43472ab1d0b7f6fd0124f7c75d7ac8ae04c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adammbalogh/key-value-store-null/zipball/939c43472ab1d0b7f6fd0124f7c75d7ac8ae04c5",
+                "reference": "939c43472ab1d0b7f6fd0124f7c75d7ac8ae04c5",
+                "shasum": ""
+            },
+            "require": {
+                "adammbalogh/key-value-store": "~0.5.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "~2.1",
+                "phpunit/phpunit": "~4.2.5",
+                "satooshi/php-coveralls": "dev-master",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AdammBalogh\\KeyValueStore\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Balogh",
+                    "email": "baloghbh@gmail.com",
+                    "homepage": "http://code-chronicle.blogspot.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Key-value null store package. It literally does nothing.",
+            "keywords": [
+                "key",
+                "key-value",
+                "key-value-null",
+                "nosql",
+                "null",
+                "store",
+                "value"
+            ],
+            "time": "2014-10-20 17:42:54"
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "5.3.0",
+            "version": "4.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "f3c8c22471cb55475105c14769644a49c3262b93"
+                "reference": "66fd916e9f9130bc22c51450476823391cb2f67c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f3c8c22471cb55475105c14769644a49c3262b93",
-                "reference": "f3c8c22471cb55475105c14769644a49c3262b93",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/66fd916e9f9130bc22c51450476823391cb2f67c",
+                "reference": "66fd916e9f9130bc22c51450476823391cb2f67c",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/ringphp": "^1.1",
+                "ext-json": "*",
+                "guzzlehttp/streams": "~2.1",
                 "php": ">=5.4.0"
             },
             "require-dev": {
                 "ext-curl": "*",
-                "phpunit/phpunit": "^4.0",
-                "psr/log": "^1.0"
+                "phpunit/phpunit": "~4.0",
+                "psr/log": "~1.0"
+            },
+            "suggest": {
+                "ext-curl": "Guzzle will use specific adapters if cURL is present"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.0-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
                     "GuzzleHttp\\": "src/"
-                }
+                },
+                "files": [
+                    "src/functions.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -272,71 +287,20 @@
                 "rest",
                 "web service"
             ],
-            "time": "2015-05-20 03:47:55"
-        },
-        {
-            "name": "guzzlehttp/ringphp",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/guzzle/RingPHP.git",
-                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
-                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/streams": "~3.0",
-                "php": ">=5.4.0",
-                "react/promise": "~2.0"
-            },
-            "require-dev": {
-                "ext-curl": "*",
-                "phpunit/phpunit": "~4.0"
-            },
-            "suggest": {
-                "ext-curl": "Guzzle will use specific adapters if cURL is present"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Ring\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Dowling",
-                    "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
-                }
-            ],
-            "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
-            "time": "2015-05-20 03:37:09"
+            "time": "2014-10-05 19:29:14"
         },
         {
             "name": "guzzlehttp/streams",
-            "version": "3.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/streams.git",
-                "reference": "47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5"
+                "reference": "f91b721d73f0e561410903b3b3c90a5d0e40b534"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/streams/zipball/47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5",
-                "reference": "47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5",
+                "url": "https://api.github.com/repos/guzzle/streams/zipball/f91b721d73f0e561410903b3b3c90a5d0e40b534",
+                "reference": "f91b721d73f0e561410903b3b3c90a5d0e40b534",
                 "shasum": ""
             },
             "require": {
@@ -344,53 +308,6 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Stream\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Dowling",
-                    "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
-                }
-            ],
-            "description": "Provides a simple abstraction over streams of data",
-            "homepage": "http://guzzlephp.org/",
-            "keywords": [
-                "Guzzle",
-                "stream"
-            ],
-            "time": "2014-10-12 19:18:40"
-        },
-        {
-            "name": "react/promise",
-            "version": "v2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/reactphp/promise.git",
-                "reference": "365fcee430dfa4ace1fbc75737ca60ceea7eeeef"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise/zipball/365fcee430dfa4ace1fbc75737ca60ceea7eeeef",
-                "reference": "365fcee430dfa4ace1fbc75737ca60ceea7eeeef",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
             },
             "type": "library",
             "extra": {
@@ -400,10 +317,10 @@
             },
             "autoload": {
                 "psr-4": {
-                    "React\\Promise\\": "src/"
+                    "GuzzleHttp\\Stream\\": "src/"
                 },
                 "files": [
-                    "src/functions_include.php"
+                    "src/functions.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -412,71 +329,18 @@
             ],
             "authors": [
                 {
-                    "name": "Jan Sorgalla",
-                    "email": "jsorgalla@googlemail.com"
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
                 }
             ],
-            "description": "A lightweight implementation of CommonJS Promises/A for PHP",
-            "time": "2014-12-30 13:32:42"
-        },
-        {
-            "name": "symfony/event-dispatcher",
-            "version": "v2.6.8",
-            "target-dir": "Symfony/Component/EventDispatcher",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "672593bc4b0043a0acf91903bb75a1c82d8f2e02"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/672593bc4b0043a0acf91903bb75a1c82d8f2e02",
-                "reference": "672593bc4b0043a0acf91903bb75a1c82d8f2e02",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "psr/log": "~1.0",
-                "symfony/config": "~2.0,>=2.0.5",
-                "symfony/dependency-injection": "~2.6",
-                "symfony/expression-language": "~2.6",
-                "symfony/phpunit-bridge": "~2.7",
-                "symfony/stopwatch": "~2.3"
-            },
-            "suggest": {
-                "symfony/dependency-injection": "",
-                "symfony/http-kernel": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.6-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\EventDispatcher\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
+            "description": "Provides a simple abstraction over streams of data (Guzzle 4+)",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "Guzzle",
+                "stream"
             ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony EventDispatcher Component",
-            "homepage": "https://symfony.com",
-            "time": "2015-05-02 15:18:45"
+            "time": "2014-08-17 21:15:53"
         }
     ],
     "packages-dev": [
@@ -1702,6 +1566,7 @@
                 "phpdoc",
                 "template"
             ],
+            "abandoned": true,
             "time": "2014-06-04 19:32:56"
         },
         {
@@ -1859,6 +1724,7 @@
                 "phpdoc",
                 "template"
             ],
+            "abandoned": true,
             "time": "2014-08-05 20:47:53"
         },
         {
@@ -2293,6 +2159,65 @@
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
             "time": "2015-05-22 14:53:08"
+        },
+        {
+            "name": "symfony/event-dispatcher",
+            "version": "v2.6.8",
+            "target-dir": "Symfony/Component/EventDispatcher",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/EventDispatcher.git",
+                "reference": "672593bc4b0043a0acf91903bb75a1c82d8f2e02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/672593bc4b0043a0acf91903bb75a1c82d8f2e02",
+                "reference": "672593bc4b0043a0acf91903bb75a1c82d8f2e02",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/config": "~2.0,>=2.0.5",
+                "symfony/dependency-injection": "~2.6",
+                "symfony/expression-language": "~2.6",
+                "symfony/phpunit-bridge": "~2.7",
+                "symfony/stopwatch": "~2.3"
+            },
+            "suggest": {
+                "symfony/dependency-injection": "",
+                "symfony/http-kernel": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\EventDispatcher\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony EventDispatcher Component",
+            "homepage": "https://symfony.com",
+            "time": "2015-05-02 15:18:45"
         },
         {
             "name": "symfony/filesystem",
@@ -3347,8 +3272,9 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "fkooman/guzzle-bearer-auth-plugin": 20,
-        "fkooman/oauth-client": 20
+        "adammbalogh/box-sdk": 0,
+        "adammbalogh/key-value-store-null": 0,
+        "adammbalogh/key-value-store-memory": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,

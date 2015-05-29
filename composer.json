@@ -1,8 +1,9 @@
 {
     "name": "fkooman/my-demo-oauth-app",
     "require": {
-        "fkooman/guzzle-bearer-auth-plugin": "dev-master",
-        "fkooman/oauth-client": "dev-master"
+        "adammbalogh/box-sdk": "@stable",
+        "adammbalogh/key-value-store-null": "@stable",
+        "adammbalogh/key-value-store-memory": "@stable"
     },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "2.*"

@@ -18,6 +18,7 @@
     <body>
         <h1>Form Assembly Box Integration</h1>
         <a href='authenticate.php' class="btn btn-lg btn-success">Log in to Box Account</a>
+        <iframe src="https://app.box.com/embed_widget/s/07slxnln8nx83v6i1f14uxodl7neo8xb?view=list&sort=name&direction=ASC&theme=dark" width="500" height="400" frameBorder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
         <?php
         // put your code here
         ?>
