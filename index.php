@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <?php
-    if (isset($_GET['code']) && isset($_GET['state'])) {
-        
-    } elseif (isset ($_GET['error']) && isset ($_GET['error_descrption'])) {
-        header('Location: http://localhost/FAUpload/error.php');
-        die();
-    }
+    session_start();
+    require('vendor/autoload.php');
+    include('BoxManager.php');
+    //var_dump($_SESSION);
+    var_dump($_FILES);
+    $BoxManager = new BoxManager(isset($_SESSION['box']) ? $_SESSION['box'] : NULL);
     
+    if (isset($_FILES['file'])) {
+        $BoxManager->uploadFile();
+    }
 ?>
 <html>
     <head>
@@ -18,10 +21,15 @@
     <body>
         <h1>Form Assembly Box Integration</h1>
         <a href='authenticate.php' class="btn btn-lg btn-success">Log in to Box Account</a>
-        <iframe src="https://app.box.com/embed_widget/s/07slxnln8nx83v6i1f14uxodl7neo8xb?view=list&sort=name&direction=ASC&theme=dark" width="500" height="400" frameBorder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+        <!--<iframe src="https://app.box.com/embed_widget/s/07slxnln8nx83v6i1f14uxodl7neo8xb?view=list&sort=name&direction=ASC&theme=dark" width="500" height="400" frameBorder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>-->
         <?php
         // put your code here
         ?>
+        <form action="index.php" method="POST" enctype="multipart/form-data">
+            Select image to upload:
+            <input type="file" name="file">
+            <input type="submit" value="Upload" name="submit">
+        </form>
     </body>
 </html>
 
