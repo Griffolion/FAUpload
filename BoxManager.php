@@ -68,21 +68,16 @@ class BoxManager
         }
     }
     
-    public function getAccessToken($refresh = true)
-    {
-        
-    }
-    
     public function uploadFile()
     {
         print_r('BEGIN FILE UPLOAD | ');
         $target_dir = 'uploads/';
         $target_file = $target_dir . basename($_FILES['file']['name']);
         
-//        if (file_exists($target_file)) {
-//            print_r('FILE EXISTS | ');
-//            return $this->upload_indicator->ERROR_FILE_EXISTS;
-//        }
+        if (file_exists($target_file)) {
+            print_r('FILE EXISTS | ');
+            return $this->syncWithBox($target_file, $_FILES['file']['name']);
+        }
         print_r('MOVING FILE | ');
         if (move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
             print_r('FILE MOVED NOW SYNCING | ');
@@ -99,12 +94,12 @@ class BoxManager
         $contentClient = new ContentClient(new ApiClient($this->access_token), new UploadClient($this->access_token));
         print_r('ATTEMPT UPLOAD | ');
         
-        $command = new Content\File\UploadFile($fileName, 0, @$filePath);
+        $command = new Content\File\UploadFile($fileName, 0, fopen($filePath, 'c+'));
         
         try {
             $response = ResponseFactory::getResponse($contentClient, $command);
         } catch (\Exception $e) {
-            print_r('EXCEPTION | ');
+            print_r('EXCEPTION | ' . $e);
         }
 
         if ($response instanceof SuccessResponse) {
