@@ -25,20 +25,23 @@ class BoxManager
     private $access_token;
     private $expires_in;
     private $refresh_token;
-    private $restricted_to = [];
-    private $token_type;
     private $upload_indicator;
     private $auth_indicator;
     private $keyValueStore;
     private $oAuthClient;
     
+    /*
+     * Constructor method will initialize Auth objects
+     * Will attempt to authorize and set session variables with new auth credentials
+     * 
+     * @param array|NULL $data Session array to set old auth credentials
+     */
     public function __construct($data)
     {
         $this->auth_indicator = new AuthIndicator();
         $this->upload_indicator = new UploadIndicator();
         $this->keyValueStore = new KeyValueStore(new MemoryAdapter());
         if ($data != NULL && is_array($data)) {
-            print_r("SESSION_DETECTED | ");
             $this->setFromSession($data);
         }
         $this->oAuthClient = new customOAuthClient($this->keyValueStore, self::CLIENT_ID, self::CLIENT_SECRET, self::RETURN_URI);
@@ -46,102 +49,112 @@ class BoxManager
         $this->setFromKVS();
     }
     
+    /*
+     * Calls oAuth Client object to authorize
+     * Retries if exceptions are given
+     */
     public function authorize()
     {
         try {
-            print_r("TRY_AUTH | ");
             $this->oAuthClient->authorize();
-            print_r("SUCCESSFUL AUTH | ");
         } catch (ExitException $e) {
-            print_r("GET CODE DONE");
             # Location header has set (box's authorize page)
             # Instead of an exit call it throws an ExitException
             $this->oAuthClient->authorize();
-            print_r("GET TOKEN");
         } catch (OAuthException $e) {
             # e.g. Invalid user credentials
             # e.g. The user denied access to your application
-            print_r("FAIL OAUTH EXCEPTION");
         } catch (ClientException $e) {
-            print_r("CLIENT EXCEPTION");
             $this->oAuthClient->authorize();
         }
     }
     
+    /*
+     * Attempts to upload file to server folder
+     * Will call Box sync method if file already exists/has been moved successfully
+     * 
+     * @return int The success/failure indicator
+     */
     public function uploadFile()
     {
-        print_r('BEGIN FILE UPLOAD | ');
         $target_dir = 'uploads/';
         $target_file = $target_dir . basename($_FILES['file']['name']);
         
         if (file_exists($target_file)) {
-            print_r('FILE EXISTS | ');
             return $this->syncWithBox($target_file, $_FILES['file']['name']);
         }
-        print_r('MOVING FILE | ');
         if (move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
-            print_r('FILE MOVED NOW SYNCING | ');
             return $this->syncWithBox($target_file, $_FILES['file']['name']);
         } else {
-            print_r('FILE NOT MOVED | ');
-            return $this->upload_indicator->ERROR_FILE_WAS_NOT_MOVED;
+            return UploadIndicator::ERROR_FILE_WAS_NOT_MOVED;
         }
     }
     
+    /*
+     * @param string @filePath The filepath of the file in question
+     * @param string @fileName The name of the file in question
+     * 
+     * Will attempt to sync with Box 
+     * 
+     * @return int The success/failure indicator
+     */
     public function syncWithBox($filePath, $fileName)
     {
-        print_r('BEGIN FILE SYNC | ');
         $contentClient = new ContentClient(new ApiClient($this->access_token), new UploadClient($this->access_token));
-        print_r('ATTEMPT UPLOAD | ');
         
         $command = new Content\File\UploadFile($fileName, 0, fopen($filePath, 'c+'));
         
         try {
             $response = ResponseFactory::getResponse($contentClient, $command);
         } catch (\Exception $e) {
-            print_r('EXCEPTION | ' . $e);
+            print_r($e);
         }
 
         if ($response instanceof SuccessResponse) {
-            print_r('UPLOAD SUCCESS | ');
-            return $this->upload_indicator->UPLOAD_SYNC_SUCCESS;
+            return UploadIndicator::UPLOAD_SYNC_SUCCESS;
         } elseif ($response instanceof ErrorResponse) {
-            print_r('UPLOAD FAIL | ');
-            return $this->upload_indicator->UPLOAD_SUCCESS_SYNC_FAIL;
+            return UploadIndicator::UPLOAD_SUCCESS_SYNC_FAIL;
         }
     }
     
+    /*
+     * Revokes access tokens in the oAuth client object
+     * Calls wipe access to remove locally stored credentials
+     */
     public function revokeAccess()
     {
         $this->oAuthClient->revokeTokens();
         $this->wipeAccess();
     }
     
+    /*
+     * @param array() $data The session array
+     * 
+     * Sets kvs and local variables from session data
+     */
     private function setFromSession($data)
     {
-        print_r('SETTING_FROM_SESSION | ');
-        // $this->keyValueStore->set('access_token', $data['access_token']);
+        $this->keyValueStore->set('access_token', $data['access_token']);
         $this->keyValueStore->set('refresh_token', $data['refresh_token']);
         $this->keyValueStore->set('expires_in', $data['expires_in']);
-        $this->keyValueStore->set('restricted_to', $data['restricted_to']);
-        $this->keyValueStore->set('token_type', $data['token_type']);
         $this->keyValueStore->expire('access_token', (int)$data['expires_in']);
         $this->keyValueStore->expire('refresh_token', 5184000);
         
         $this->access_token = $data['access_token'];
         $this->expires_in = $data['expires_in'];
-        $this->restricted_to = $data['restricted_to'];
-        $this->token_type = $data['token_type'];
         $this->refresh_token = $data['refresh_token'];
-        print_r('SET_FROM_SESSION | ');
     }
     
+    /*
+     * @param boolean $persist Flag to indicate whether session should be updated
+     * 
+     * Sets local variables from kvs
+     * Persist to session if flag is set true (it is by default)
+     */
     private function setFromKVS($persist = true)
     {
         $this->access_token = $this->oAuthClient->getKvs()->get('access_token');
         $this->expires_in = $this->oAuthClient->getKvs()->getTtl('access_token');
-        //$this->restricted_to = $this->oAuthClient->kvs->get('restricted_to');
-        //$this->token_type = $this->oAuthClient->kvs->get('token_type');
         $this->refresh_token = $this->oAuthClient->getKvs()->get('refresh_token');
         
         if ($persist) {
@@ -149,24 +162,24 @@ class BoxManager
         }
     }
     
+    /*
+     * Gets rid of credentials from session so user is forced to re-auth manually
+     */
     private function wipeAccess()
     {
-        $this->access_token = '';
-        $this->expires_in = '';
-        $this->restricted_to = '';
-        $this->token_type = '';
-        $this->refresh_token = '';
-        $this->persist();
+        unset($_SESSION['box']);
     }
     
+    /*
+     * Puts credentials into array
+     * Array is set as a session variable 'box'
+     */
     private function persist()
     {
         $persist = array(
             'access_token' => $this->access_token,
             'refresh_token' => $this->refresh_token,
             'expires_in' => $this->expires_in,
-            'restricted_to' => $this->restricted_to,
-            'token_type' => $this->token_type
         );
         $_SESSION['box'] = $persist;
     }
