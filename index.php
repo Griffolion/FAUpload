@@ -4,6 +4,7 @@
     require('vendor/autoload.php');
     include('BoxManager.php');
     $BoxManager = new BoxManager(isset($_SESSION['box']) ? $_SESSION['box'] : NULL);
+    $folders = $BoxManager->getFolders();
     
     if (isset($_FILES['file'])) {
         $BoxManager->uploadFile();
@@ -25,6 +26,13 @@
         <form action="index.php" method="POST" enctype="multipart/form-data">
             Select image to upload:
             <input type="file" name="file">
+            <select name="folder">
+                <?php 
+                    foreach ($folders as $key => $value) {
+                        echo '<option value="' . $value . '">' . $key . '</option>';
+                    }
+                 ?>
+            </select>
             <input type="submit" value="Upload" name="submit">
         </form>
     </body>

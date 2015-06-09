@@ -29,6 +29,7 @@ class BoxManager
     private $auth_indicator;
     private $keyValueStore;
     private $oAuthClient;
+    private $contentClient;
     
     /*
      * Constructor method will initialize Auth objects
@@ -47,6 +48,7 @@ class BoxManager
         $this->oAuthClient = new customOAuthClient($this->keyValueStore, self::CLIENT_ID, self::CLIENT_SECRET, self::RETURN_URI);
         $this->authorize();
         $this->setFromKVS();
+        $this->contentClient = new ContentClient(new ApiClient($this->access_token), new UploadClient($this->access_token));
     }
     
     /*
@@ -81,10 +83,9 @@ class BoxManager
         $target_file = $target_dir . basename($_FILES['file']['name']);
         
         if (file_exists($target_file)) {
-            return $this->syncWithBox($target_file, $_FILES['file']['name']);
-        }
-        if (move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
-            return $this->syncWithBox($target_file, $_FILES['file']['name']);
+            return $this->syncWithBox($target_file, $_FILES['file']['name'], $_POST['folder']);
+        } else if (move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
+            return $this->syncWithBox($target_file, $_FILES['file']['name'], $_POST['folder']);
         } else {
             return UploadIndicator::ERROR_FILE_WAS_NOT_MOVED;
         }
@@ -98,14 +99,12 @@ class BoxManager
      * 
      * @return int The success/failure indicator
      */
-    public function syncWithBox($filePath, $fileName)
-    {
-        $contentClient = new ContentClient(new ApiClient($this->access_token), new UploadClient($this->access_token));
-        
-        $command = new Content\File\UploadFile($fileName, 0, fopen($filePath, 'c+'));
+    public function syncWithBox($filePath, $fileName, $boxFolder = 0)
+    {   
+        $command = new Content\File\UploadFile($fileName, $boxFolder, fopen($filePath, 'c+'));
         
         try {
-            $response = ResponseFactory::getResponse($contentClient, $command);
+            $response = ResponseFactory::getResponse($this->contentClient, $command);
         } catch (\Exception $e) {
             print_r($e);
         }
@@ -114,6 +113,58 @@ class BoxManager
             return UploadIndicator::UPLOAD_SYNC_SUCCESS;
         } elseif ($response instanceof ErrorResponse) {
             return UploadIndicator::UPLOAD_SUCCESS_SYNC_FAIL;
+        }
+    }
+    
+    /*
+     * @param string @root The id of the root folder to check within
+     * 
+     * Enumerate the folders within given folder of user's Box account
+     * Root defaults to Box account's top level folder "All Files" (id: 0)
+     * 
+     * @return array @Array Key-Value array of folders or top level folder if error
+     */
+    public function getFolders($root = '0')
+    {
+        $command = new Content\Folder\GetFolderInfo($root);
+        $response = ResponseFactory::getResponse($this->contentClient, $command);
+
+        if ($response instanceof SuccessResponse) {
+            $folders = ['Root Folder' => '0'];
+            $decoded = $response->json();
+            foreach ($decoded["item_collection"]["entries"] as $entry) {
+                if ($entry["type"] === 'folder') {
+                    $folders[$entry['name']] = $entry['id'];
+                }
+            }
+            return $folders;
+        } elseif ($response instanceof ErrorResponse) {
+            return array('Error' => '0');
+        }
+    }
+    
+    public function fileExistsInBoxFolder($fileName, $folder = 0)
+    {
+        $response = $this->getFolderInfo($folder);
+        if ($response !== NULL) {
+            foreach ($response['item_collection']['entries'] as $entry) {
+                if ($entry['type'] === 'file' && $entry['name'] === $fileName) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+    
+    private function getFolderInfo($folder = 0)
+    {
+        $command = new Content\Folder\GetFolderInfo($root);
+        $response = ResponseFactory::getResponse($this->contentClient, $command);
+        
+        if ($response instanceof SuccessResponse) {
+            return $response->json();
+        } elseif ($response instanceof ErrorResponse) {
+            return NULL;
         }
     }
     
