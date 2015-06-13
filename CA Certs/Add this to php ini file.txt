@@ -1,0 +1,3 @@
+Add line below to php.ini file, change path to wherever you put cacert.pem
+
+curl.cainfo=C:\xampp\php\extras\ssl\cacert.pem
