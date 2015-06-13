@@ -45,10 +45,7 @@ class BoxManager
         if ($data != NULL && is_array($data)) {
             $this->setFromSession($data);
         }
-        $this->oAuthClient = new customOAuthClient($this->keyValueStore, self::CLIENT_ID, self::CLIENT_SECRET, self::RETURN_URI);
         $this->authorize();
-        $this->setFromKVS();
-        $this->contentClient = new ContentClient(new ApiClient($this->access_token), new UploadClient($this->access_token));
     }
     
     /*
@@ -57,6 +54,7 @@ class BoxManager
      */
     public function authorize()
     {
+        $this->oAuthClient = new customOAuthClient($this->keyValueStore, self::CLIENT_ID, self::CLIENT_SECRET, self::RETURN_URI);
         try {
             $this->oAuthClient->authorize();
         } catch (ExitException $e) {
@@ -69,6 +67,8 @@ class BoxManager
         } catch (ClientException $e) {
             $this->oAuthClient->authorize();
         }
+        $this->setFromKVS();
+        $this->contentClient = new ContentClient(new ApiClient($this->access_token), new UploadClient($this->access_token));
     }
     
     /*
@@ -83,6 +83,9 @@ class BoxManager
         $target_file = $target_dir . basename($_FILES['file']['name']);
         
         if (file_exists($target_file)) {
+            if ($this->fileExistsInBoxFolder($_FILES['file']['name'])){
+                return true; // todo
+            }
             return $this->syncWithBox($target_file, $_FILES['file']['name'], $_POST['folder']);
         } else if (move_uploaded_file($_FILES['file']['tmp_name'], $target_file)) {
             return $this->syncWithBox($target_file, $_FILES['file']['name'], $_POST['folder']);
@@ -124,26 +127,33 @@ class BoxManager
      * 
      * @return array @Array Key-Value array of folders or top level folder if error
      */
-    public function getFolders($root = '0')
+    public function getFolders($folder = '0')
     {
-        $command = new Content\Folder\GetFolderInfo($root);
-        $response = ResponseFactory::getResponse($this->contentClient, $command);
-
-        if ($response instanceof SuccessResponse) {
-            $folders = ['Root Folder' => '0'];
-            $decoded = $response->json();
-            foreach ($decoded["item_collection"]["entries"] as $entry) {
+        $response = $this->getFolderInfo($folder);
+        $folders = [];
+        if ($folder == '0') {
+            $folders['Root Folder'] = '0';
+        }
+        if ($response !== NULL) {
+            foreach ($response["item_collection"]["entries"] as $entry) {
                 if ($entry["type"] === 'folder') {
                     $folders[$entry['name']] = $entry['id'];
                 }
             }
             return $folders;
-        } elseif ($response instanceof ErrorResponse) {
-            return array('Error' => '0');
         }
+        return array('Root Folder' => '0');
     }
     
-    public function fileExistsInBoxFolder($fileName, $folder = 0)
+    /*
+     * @param string $fileName String with name of the file
+     * @param string $folder String with the folder ID in Box
+     * 
+     * Will check if the file with the given name exists in the given Box folder
+     * 
+     * @return boolean True if the file exists, false if it doesn't
+     */
+    public function fileExistsInBoxFolder($fileName, $folder = '0')
     {
         $response = $this->getFolderInfo($folder);
         if ($response !== NULL) {
@@ -152,13 +162,21 @@ class BoxManager
                     return true;
                 }
             }
-            return false;
         }
+        return false;
     }
     
-    private function getFolderInfo($folder = 0)
+    /*
+     * @param string $folder String with the folder ID in Box
+     * 
+     * Gets the informational JSON of the given folder from Box
+     * 
+     * @return array|NULL Returns json_decode() output if successful response
+     *                    Or NULL if error response
+     */
+    private function getFolderInfo($folder = '0')
     {
-        $command = new Content\Folder\GetFolderInfo($root);
+        $command = new Content\Folder\GetFolderInfo($folder);
         $response = ResponseFactory::getResponse($this->contentClient, $command);
         
         if ($response instanceof SuccessResponse) {

@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
     session_start();
     require('vendor/autoload.php');
@@ -10,6 +9,7 @@
         $BoxManager->uploadFile();
     }
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
